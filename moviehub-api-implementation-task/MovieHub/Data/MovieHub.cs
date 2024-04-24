@@ -3,9 +3,9 @@ using MovieHub.Models;
 
 namespace MovieHub.Data;
 
-public class MovieHubContext : DbContext
+public class MovieContext : DbContext
 {
-    public MovieHubContext (DbContextOptions<MovieHubContext> options)
+    public MovieContext (DbContextOptions<MovieContext> options)
         : base(options)
     {
     }
