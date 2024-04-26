@@ -3,9 +3,9 @@ namespace MovieHub.Models;
 
 public class MovieCinema
 {
-    public int Id { get; set; }
-    public int MovieId { get; set; }
-    public int CinemaId { get; set; }
-    public DateOnly Showtime { get; set; }
-    public decimal TicketPrice { get; set; }
+    public int id { get; set; }
+    public int movieId { get; set; }
+    public int cinemaId { get; set; }
+    public DateOnly showtime { get; set; }
+    public decimal ticketPrice { get; set; }
 }

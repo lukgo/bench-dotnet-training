@@ -1,11 +1,12 @@
-namespace MovieHub.Models;
+using System.ComponentModel.DataAnnotations;
 
+namespace MovieHub.Models;
 
 public class Cinema
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string Location { get; set; }
+    public int id { get; set; }
+    [MaxLength(64)]
+    public string name { get; set; }
+    public string location { get; set; }
     public ICollection<MovieCinema>? MovieCinema { get; set; }
-
 }

@@ -10,7 +10,7 @@ namespace MovieHub.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            string sqlFilePath = "../db/moviehub-db-data-seed.sql";
+            string sqlFilePath = "./db/moviehub-db-data-seed.sql";
             string sqlContent = File.ReadAllText(sqlFilePath);
             migrationBuilder.Sql(sqlContent);
         }
