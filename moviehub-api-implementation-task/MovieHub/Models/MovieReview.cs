@@ -1,11 +1,10 @@
 namespace MovieHub.Models;
 
-
 public class MovieReview
 {
-    public int Id { get; set; }
-    public int MovieId { get; set; }
-    public decimal Score { get; set; }
-    public string Comment { get; set; }
-    public DateOnly ReviewDate { get; set; }
+    public int id { get; set; }
+    public int movieId { get; set; }
+    public decimal score { get; set; }
+    public string comment { get; set; }
+    public DateTime reviewDate { get; set; }
 }

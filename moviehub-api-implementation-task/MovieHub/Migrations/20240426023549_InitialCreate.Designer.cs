@@ -11,7 +11,7 @@ using MovieHub.Data;
 namespace MovieHub.Migrations
 {
     [DbContext(typeof(MovieContext))]
-    [Migration("20240424055912_InitialCreate")]
+    [Migration("20240426023549_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -22,112 +22,119 @@ namespace MovieHub.Migrations
 
             modelBuilder.Entity("MovieHub.Models.Cinema", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Location")
+                    b.Property<string>("location")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("name")
                         .IsRequired()
+                        .HasMaxLength(64)
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.ToTable("Cinema");
                 });
 
             modelBuilder.Entity("MovieHub.Models.Movie", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Director")
+                    b.Property<string>("director")
                         .IsRequired()
+                        .HasMaxLength(64)
                         .HasColumnType("TEXT");
 
-                    b.Property<DateOnly>("Genre")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PrincessTheatreMovieId")
+                    b.Property<string>("genre")
                         .IsRequired()
+                        .HasMaxLength(64)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Rating")
+                    b.Property<string>("princessTheatreMovieId")
                         .IsRequired()
+                        .HasMaxLength(16)
                         .HasColumnType("TEXT");
 
-                    b.Property<DateOnly>("ReleaseDate")
+                    b.Property<string>("rating")
+                        .IsRequired()
+                        .HasMaxLength(8)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Runtime")
+                    b.Property<DateOnly>("releaseDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("runtime")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Synopsis")
+                    b.Property<string>("synopsis")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("title")
                         .IsRequired()
+                        .HasMaxLength(128)
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.ToTable("Movie");
                 });
 
             modelBuilder.Entity("MovieHub.Models.MovieCinema", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CinemaId")
+                    b.Property<int>("cinemaId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("MovieId")
+                    b.Property<int>("movieId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateOnly>("Showtime")
+                    b.Property<DateOnly>("showtime")
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("TicketPrice")
+                    b.Property<decimal>("ticketPrice")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
-                    b.HasIndex("CinemaId");
+                    b.HasIndex("cinemaId");
 
-                    b.HasIndex("MovieId");
+                    b.HasIndex("movieId");
 
                     b.ToTable("MovieCinema");
                 });
 
             modelBuilder.Entity("MovieHub.Models.MovieReview", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Comment")
+                    b.Property<string>("comment")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("MovieId")
+                    b.Property<int>("movieId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateOnly>("ReviewDate")
+                    b.Property<DateTime>("reviewDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Score")
+                    b.Property<decimal>("score")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
-                    b.HasIndex("MovieId");
+                    b.HasIndex("movieId");
 
                     b.ToTable("MovieReview");
                 });
@@ -136,13 +143,13 @@ namespace MovieHub.Migrations
                 {
                     b.HasOne("MovieHub.Models.Cinema", null)
                         .WithMany("MovieCinema")
-                        .HasForeignKey("CinemaId")
+                        .HasForeignKey("cinemaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MovieHub.Models.Movie", null)
                         .WithMany("MovieCinema")
-                        .HasForeignKey("MovieId")
+                        .HasForeignKey("movieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -151,7 +158,7 @@ namespace MovieHub.Migrations
                 {
                     b.HasOne("MovieHub.Models.Movie", null)
                         .WithMany("MovieReviews")
-                        .HasForeignKey("MovieId")
+                        .HasForeignKey("movieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
