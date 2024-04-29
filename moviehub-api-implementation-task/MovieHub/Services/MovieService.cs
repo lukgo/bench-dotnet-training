@@ -1,29 +1,35 @@
-using MovieHub.Models;
-using MovieHub.Data;
 using Microsoft.EntityFrameworkCore;
+using MovieHub.Data;
+using MovieHub.Models;
 
 namespace MovieHub.Services;
 
 public class MovieService
 {
-	private readonly MovieContext _context;
+    private readonly MovieContext _context;
 
-	public MovieService(MovieContext context)
-	{
-			_context = context;
-	}
+    public MovieService(MovieContext context)
+    {
+        _context = context;
+    }
 
-	public IEnumerable<Movie> GetAll()
-	{
-			return [.. _context.Movie.AsNoTracking()];
-	}
+    public IEnumerable<Movie> GetAll() => [.. _context.Movie.AsNoTracking()];
 
-	public Movie? GetByTitle(string title)
-	{
-			return _context.Movie
-					.Include(p => p.MovieCinema)
-					.Include(p => p.MovieReviews)
-					.AsNoTracking()
-					.SingleOrDefault(p => p.Title == title);
-	}
+    public IEnumerable<Cinema> GetCinemas() => [.. _context.Cinema.AsNoTracking()];
+
+    public IEnumerable<MovieCinema> GetMovieCinemas() => [.. _context.MovieCinema.AsNoTracking()];
+
+    public IEnumerable<Movie>? GetMovieByTitle(string title) =>
+        [
+            .. _context.Movie.Where(m =>
+                m.title != null && m.title.ToLower().Contains(title.ToLower())
+            )
+        ];
+
+    public IEnumerable<Movie>? GetMovieByGenre(string genre) =>
+        [
+            .. _context.Movie.Where(m =>
+                m.genre != null && m.genre.ToLower().Contains(genre.ToLower())
+            )
+        ];
 }
