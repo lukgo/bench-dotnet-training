@@ -32,6 +32,7 @@ builder.Services.AddSwaggerGen(options =>
     );
 });
 builder.Services.AddScoped<MovieService>();
+builder.Services.AddScoped<ReviewService>();
 builder.Services.AddControllers();
 
 var app = builder.Build();

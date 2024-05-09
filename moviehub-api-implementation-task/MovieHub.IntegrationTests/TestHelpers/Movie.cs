@@ -27,4 +27,22 @@ public class TestHelpers
             princessTheatreMovieId = princessTheatreMovieId
         };
     }
+
+    public static MovieReview CreateReview(
+        DateTime reviewDate,
+        int movieId,
+        int id = 2,
+        int score = 5,
+        string comment = "Never seen a worse movie in my life"
+    )
+    {
+        return new MovieReview
+        {
+            id = id,
+            movieId = movieId,
+            score = score,
+            comment = comment,
+            reviewDate = reviewDate,
+        };
+    }
 }
