@@ -21,4 +21,10 @@ public class ReviewController : ControllerBase
 
     [HttpPost("~/add-review")]
     public void AddReview(MovieReview review) => _service.AddReview(review);
+
+    [HttpPut("~/update-review")]
+    public void UpdateReview(MovieReview review) => _service.UpdateReview(review);
+
+    [HttpDelete("~/delete-review/{reviewId}")]
+    public void DeleteReview(int reviewId) => _service.DeleteReview(reviewId);
 }

@@ -150,4 +150,10 @@ public class MovieServiceTest
     }
 
     #endregion
+
+    public void Dispose()
+    {
+        context.Database.EnsureDeleted();
+        context.Dispose();
+    }
 }
