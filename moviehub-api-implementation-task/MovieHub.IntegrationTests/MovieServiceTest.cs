@@ -95,6 +95,39 @@ public class MovieServiceTest
         );
         Assert.Equal(2, movies.Count());
     }
+
+    [Fact]
+    public void TestGetAverageScoreOnAMovie()
+    {
+        const string MOVIE_TITLE = "Star Wars: The Phantom Menace (Episode I)";
+        var movie = TestHelpers.CreateMovie(
+            id: 1,
+            releaseDate: new DateOnly(1999, 5, 19),
+            title: MOVIE_TITLE
+        );
+
+        var movieReview1 = TestHelpers.CreateReview(
+            id: 1,
+            movieId: 1,
+            score: 5,
+            reviewDate: new DateTime(2024, 10, 10)
+        );
+
+        var movieReview2 = TestHelpers.CreateReview(
+            id: 2,
+            movieId: 1,
+            score: 7,
+            reviewDate: new DateTime(2024, 10, 10)
+        );
+
+        context.Movie.Add(movie);
+        context.MovieReview.AddRange(movieReview1, movieReview2);
+        context.SaveChanges();
+        var service = new MovieService(context);
+        var movies = service?.GetAll();
+
+        Assert.Collection(movies, m => Assert.Equal(m.averageScore, 6.0));
+    }
     #endregion
 
     #region GetMovieDetails

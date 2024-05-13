@@ -15,7 +15,16 @@ public class MovieService
 
     // get list of movies
 
-    public IEnumerable<Movie> GetAll() => _context.Movie;
+    public IEnumerable<Movie.MovieWithAverageScore> GetAll()
+    {
+        return
+        [
+            .. _context.Movie.Select(movie => new Movie.MovieWithAverageScore(
+                movie,
+                GetAverageMovieScore(movie.id, _context)
+            ))
+        ];
+    }
 
     public IEnumerable<Movie>? GetMoviesByTitle(string title) =>
         [
@@ -33,8 +42,19 @@ public class MovieService
 
     // movie details
 
-    public Movie GetMovieDetails(int id) =>
-        _context.Movie.AsNoTracking().FirstOrDefault(m => m.id == id);
+    public Movie.MovieWithAverageScore GetMovieDetails(int id)
+    {
+        var movieDetails = _context.Movie.AsNoTracking().FirstOrDefault(m => m.id == id);
+        return new Movie.MovieWithAverageScore(movieDetails, GetAverageMovieScore(id, _context));
+    }
+
+    private static double GetAverageMovieScore(int id, MovieContext context)
+    {
+        var movieReviews = context.MovieReview.Where(review => review.movieId == id);
+        if (!movieReviews.Any())
+            return 0;
+        return movieReviews.Select(r => (double)r.score).Average();
+    }
 
     public IEnumerable<Cinema> GetCinemasWithMovie(int id) =>
         _context.Cinema.Include(c => c.MovieCinema.Where(mc => mc.movieId == id));

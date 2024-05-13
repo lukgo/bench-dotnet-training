@@ -16,7 +16,10 @@ public class MovieController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<Movie> GetAll() => _service.GetAll();
+    public IEnumerable<Movie.MovieWithAverageScore> GetAll() => _service.GetAll();
+
+    [HttpGet("~/get-movie/{id}")]
+    public Movie.MovieWithAverageScore GetMovieDetails(int id) => _service.GetMovieDetails(id);
 
     [HttpGet("~/get-movie/title/{title}")]
     public IEnumerable<Movie> GetMovieByTitle(string title) => _service.GetMoviesByTitle(title);
